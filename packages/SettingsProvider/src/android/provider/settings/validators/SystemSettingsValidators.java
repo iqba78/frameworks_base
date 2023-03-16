@@ -264,5 +264,6 @@ public class SystemSettingsValidators {
                         return new InclusiveIntegerRangeValidator(0, 1000).validate(item);
                     }
                 });
+        VALIDATORS.put(System.KEYGUARD_QUICK_TOGGLES_NEW, ANY_STRING_VALIDATOR);
     }
 }
