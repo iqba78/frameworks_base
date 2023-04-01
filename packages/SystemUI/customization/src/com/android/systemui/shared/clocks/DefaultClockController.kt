@@ -16,9 +16,12 @@ package com.android.systemui.shared.clocks
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Paint.FontMetrics
 import android.graphics.Rect
 import android.icu.text.NumberFormat
 import android.os.UserHandle
+import android.text.TextPaint
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -199,13 +202,22 @@ class DefaultClockController(
 
         override fun onLocaleChanged(locale: Locale) {
             val nf = NumberFormat.getInstance(locale)
-            if (nf.format(FORMAT_NUMBER.toLong()) == burmeseNumerals) {
-                clocks.forEach { it.setLineSpacingScale(burmeseLineSpacing) }
-            } else {
-                clocks.forEach { it.setLineSpacingScale(defaultLineSpacing) }
-            }
 
-            clocks.forEach { it.refreshFormat() }
+            clocks.forEach { clock ->
+                val textPaint = clock.paint
+                val fontMetrics: Paint.FontMetrics = textPaint.fontMetrics
+                val textHeight: Float = fontMetrics.bottom - fontMetrics.top
+                val totalHeight: Float = (clock.height - clock.paddingTop - clock.paddingBottom).toFloat()
+                val maxLineSpacing: Float = totalHeight - textHeight
+
+                val availableWidth: Int = clock.width - clock.paddingStart - clock.paddingEnd
+                val textWidth: Float = textPaint.measureText(clock.text.toString())
+                val numLines: Int = Math.ceil(textWidth.toDouble() / availableWidth.toDouble()).toInt()
+                val lineSpacing: Float = if (numLines > 1) maxLineSpacing / (numLines - 1) else 0f
+
+                clock.setLineSpacing(lineSpacing, 1f)
+                clock.refreshFormat()
+            }
         }
     }
 
