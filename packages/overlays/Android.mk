@@ -73,6 +73,10 @@ LOCAL_REQUIRED_MODULES := \
 	IconPackAcherusSettingsOverlay \
 	IconPackAcherusSystemUIOverlay \
 	IconPackAcherusThemePickerOverlay \
+	IconPackCalypsoAndroidOverlay \
+	IconPackCalypsoLauncherOverlay \
+	IconPackCalypsoSettingsOverlay \
+	IconPackCalypsoSystemUIOverlay \
 	IconPackOutlineAndroidOverlay \
 	IconPackOutlineLauncherOverlay \
 	IconPackOutlineSettingsOverlay \
