@@ -54,7 +54,6 @@ import com.android.systemui.Dumpable;
 import com.android.systemui.R;
 import com.android.systemui.animation.Interpolators;
 import com.android.systemui.dump.DumpManager;
-import com.android.systemui.derp.logo.LogoImage;
 import com.android.systemui.flags.FeatureFlags;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.shade.NotificationPanelViewController;
@@ -157,7 +156,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private List<String> mBlockedIcons = new ArrayList<>();
     private Map<Startable, Startable.State> mStartableStates = new ArrayMap<>();
 
-    private View mLeftLogo;
+    private View mLeftLogoLayout;
 
     private SignalCallback mSignalCallback = new SignalCallback() {
         @Override
@@ -277,7 +276,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mEndSideContent = mStatusBar.findViewById(R.id.status_bar_end_side_content);
         mClockController = mStatusBar.getClockController();
         mOngoingCallChip = mStatusBar.findViewById(R.id.ongoing_call_chip);
-        mLeftLogo = mStatusBar.findViewById(R.id.statusbar_logo);
+        mLeftLogoLayout = mStatusBar.findViewById(R.id.left_logo_icon_area);
         mCenterClock = mStatusBar.findViewById(R.id.clock_center);
         mLeftClock = mStatusBar.findViewById(R.id.clock);
         mRightClock = mStatusBar.findViewById(R.id.clock_right);
@@ -573,16 +572,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     public void hideNotificationIconArea(boolean animate) {
-    	if (LogoImage.getLogoPosition(getContext()) == 0) {
-            animateFullyHide(mLeftLogo, animate);
-        }
-        animateHide(mNotificationIconAreaInner, animate);
+    	animateHide(mLeftLogoLayout, animate);
+    	animateHide(mNotificationIconAreaInner, animate);
     }
 
     public void showNotificationIconArea(boolean animate) {
-    	if (LogoImage.getLogoPosition(getContext()) == 0) {
-            animateShow(mLeftLogo, animate);
-        }
+    	animateShow(mLeftLogoLayout, animate);
         animateShow(mNotificationIconAreaInner, animate);
     }
 
@@ -622,13 +617,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
      */
     private void animateHide(final View v, boolean animate) {
         animateHiddenState(v, View.INVISIBLE, animate);
-    }
-
-    /**
-     * Hides a view and its hierarchy.
-     */
-    private void animateFullyHide(final View v, boolean animate) {
-        animateHiddenState(v, View.GONE, animate);
     }
 
     /**

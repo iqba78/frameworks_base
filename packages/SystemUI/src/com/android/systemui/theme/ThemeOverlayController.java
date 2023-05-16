@@ -471,10 +471,6 @@ public class ThemeOverlayController implements CoreStartable, Dumpable {
                 },
                 UserHandle.USER_ALL);
 
-        if (!mIsMonetEnabled) {
-            return;
-        }
-
         mSecureSettings.registerContentObserverForUser(
                 Settings.Secure.getUriFor(Settings.Secure.BRIGHTNESS_SLIDER_STYLE),
                 false, new ContentObserver(mBgHandler) {
