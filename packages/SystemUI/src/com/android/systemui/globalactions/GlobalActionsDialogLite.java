@@ -74,7 +74,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
-import android.os.Process;
 import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.os.UserHandle;
@@ -195,7 +194,7 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
     private static final boolean SHOW_SILENT_TOGGLE = true;
 
     /* Valid settings for restart actions keys.
-     * see lineage-sdk config.xml config_restartActionsList */
+     * see frameworks config.xml config_restartActionsList */
     private static final String RESTART_ACTION_KEY_RESTART = "restart";
     private static final String RESTART_ACTION_KEY_RESTART_RECOVERY = "restart_recovery";
     private static final String RESTART_ACTION_KEY_RESTART_BOOTLOADER = "restart_bootloader";
@@ -707,8 +706,6 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
                 if (PowerMenuUtils.isPanicAvailable(mContext)) {
                     addIfShouldShowAction(tempActions, new PanicAction());
                 }
-            } else if (GLOBAL_ACTION_KEY_RESTART_SYSTEMUI.equals(actionKey)) {
-                addIfShouldShowAction(tempActions, new RestartSystemUIAction());
             } else {
                 Log.e(TAG, "Invalid global action key " + actionKey);
             }
@@ -1382,33 +1379,6 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
             } else {
                 return false;
             }
-        }
-    }
-
-    private final class RestartSystemUIAction extends SinglePressAction {
-        private RestartSystemUIAction() {
-            super(com.android.systemui.R.drawable.ic_restart_systemui, com.android.systemui.R.string.global_action_restart_systemui);
-        }
-
-        @Override
-        public boolean showDuringKeyguard() {
-            return true;
-        }
-
-        @Override
-        public boolean showBeforeProvisioning() {
-            return true;
-        }
-
-        @Override
-        public void onPress() {
-            /*
-              No time and need to dismiss the dialog here, just kill systemui straight after telling to
-              policy/GlobalActions that we hid the dialog within the kill action itself so its onStatusBarConnectedChanged
-              won't show the LegacyGlobalActions after systemui restart.
-            */
-            mWindowManagerFuncs.onGlobalActionsHidden();
-            Process.killProcess(Process.myPid());
         }
     }
 

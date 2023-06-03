@@ -62,6 +62,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.android.internal.R;
+import com.android.systemui.animation.Expandable;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.UiEventLogger;
@@ -70,7 +71,6 @@ import com.android.internal.view.RotationPolicy;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.systemui.animation.DialogLaunchAnimator;
-import com.android.systemui.animation.Expandable;
 import com.android.systemui.animation.Interpolators;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.colorextraction.SysuiColorExtractor;
@@ -365,7 +365,7 @@ public class GlobalActionsDialog extends GlobalActionsDialogLite
     }
 
     @Override
-    protected void handleShow(Expandable v) {
+    protected void handleShow(@Nullable Expandable expandable) {
         seedFavorites();
         super.handleShow(null);
     }
