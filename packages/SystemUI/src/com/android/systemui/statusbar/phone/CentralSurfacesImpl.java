@@ -4480,8 +4480,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
                 updateDismissAllButton();
                 break;
             case QS_TRANSPARENCY:
+	            final Resources res = mContext.getResources();
                 mScrimController.setCustomScrimAlpha(
-                        TunerService.parseInteger(newValue, 85));
+                        TunerService.parseInteger(newValue, res.getInteger(com.android.internal.R.integer.config_qs_transparency)));
                 break;
             default:
                 break;
