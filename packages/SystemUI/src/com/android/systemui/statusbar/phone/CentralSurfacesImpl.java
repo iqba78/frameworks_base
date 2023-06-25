@@ -3790,6 +3790,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces, Tune
                                     && mStatusBarStateController.getDozeAmount() == 1f
                                     && mWakefulnessLifecycle.getLastWakeReason()
                                     == PowerManager.WAKE_REASON_POWER_BUTTON
+                                    && mFingerprintManager.get() != null
                                     && mFingerprintManager.get().isPowerbuttonFps()
                                     && mFingerprintManager.get().hasEnrolledFingerprints()
                                     && !touchToUnlockAnytime;
